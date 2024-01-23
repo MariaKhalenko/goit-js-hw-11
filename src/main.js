@@ -35,7 +35,6 @@ formSearch.addEventListener('submit', function (event) {
     })
     .catch(error => {
       console.error(error);
-
       
       hideLoader();
     });
@@ -55,7 +54,7 @@ function displayImages(images) {
     
   
   const markup = createMarkup(images);
-  galleryList.innerHTML = markup;
+   galleryImage.innerHTML = markup;
 
   
   const lightbox = new SimpleLightbox('.gallery a', {
