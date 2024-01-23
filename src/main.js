@@ -1,6 +1,6 @@
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
-import SimpleLightbox from 'simplelightbox';
+import SimpleLightbox from "simplelightbox";
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const formSearch = document.querySelector('.form-search');
@@ -102,7 +102,7 @@ function createMarkup(images) {
 function showLoader() {
   const loader = document.querySelector('.loader');
   if (loader) {
-    // loader.style.display = 'block';
+    loader.style.display = 'block';
     loader.classList.add('visible');
   }
 }
@@ -110,7 +110,7 @@ function showLoader() {
 function hideLoader() {
   const loader = document.querySelector('.loader');
   if (loader) {
-    // loader.style.display = '';
+    loader.style.display = '';
     loader.classList.remove('visible');
   }
 }
