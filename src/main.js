@@ -26,18 +26,19 @@ formSearch.addEventListener('submit', function (event) {
     showLoader();
     
 
-const apiUrl = `${BASE_URL}/?key=${API_KEY}&q=${query}&image_type=photo&orientation=horizontal&safesearch=true`;
+  const apiUrl = `${BASE_URL}/?key=${API_KEY}&q=${query}&image_type=photo&orientation=horizontal&safesearch=true`;
 
   fetch(apiUrl)
     .then(response => response.json())
     .then(data => {
       displayImages(data.hits);
     })
-    .catch((err) => {
-     console.log(err);
-    });
+    .catch(error => {
+      console.error(error);
 
-    hideLoader();
+      
+      hideLoader();
+    });
 });
 
 function displayImages(images) {
@@ -50,27 +51,11 @@ function displayImages(images) {
         'Sorry, there are no images matching your search query. Please try again!',
     });
     return;
-}
-    
-
-    function showLoader() {
-  const loader = document.querySelector('.loader');
-  if (loader) {
-     loader.style.display = 'block';
-    loader.classList.add('visible');
   }
-    }
     
-    function hideLoader() {
-  const loader = document.querySelector('.loader');
-  if (loader) {
-    loader.style.display = '';
-    loader.classList.remove('visible');
-  }
-}
-
+  
   const markup = createMarkup(images);
-  galleryImage.innerHTML = markup;
+  galleryList.innerHTML = markup;
 
   
   const lightbox = new SimpleLightbox('.gallery a', {
@@ -78,11 +63,11 @@ function displayImages(images) {
     captionPosition: 'bottom',
     captionDelay: 250,
   });
-  lightbox.refresh(); 
+  lightbox.refresh();
 }
 
-function createMarkup(array) {
-  return array.map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) =>
+function createMarkup(images) {
+  return images.map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) =>
     `<li class="gallery-item">
           <a class="gallery-link" href="${largeImageURL}">
             <img
@@ -112,4 +97,20 @@ function createMarkup(array) {
           </div>
         </li>`)
     .join('');
+}
+
+function showLoader() {
+  const loader = document.querySelector('.loader');
+  if (loader) {
+    // loader.style.display = 'block';
+    loader.classList.add('visible');
+  }
+}
+
+function hideLoader() {
+  const loader = document.querySelector('.loader');
+  if (loader) {
+    // loader.style.display = '';
+    loader.classList.remove('visible');
+  }
 }
