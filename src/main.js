@@ -7,6 +7,9 @@ const formSearch = document.querySelector('.form-search');
 const searchBox = document.querySelector('.search-box');
 const galleryImage = document.querySelector('.gallery');
 
+const BASE_URL = 'https://pixabay.com/api';
+const API_KEY = '23963114-6d0d5d874ae460d9125bacd21';
+
 formSearch.addEventListener('submit', function (event) {
   event.preventDefault();
 
@@ -22,8 +25,6 @@ formSearch.addEventListener('submit', function (event) {
 
     showLoader();
     
-const BASE_URL = 'https://pixabay.com/api';
-const API_KEY = '23963114-6d0d5d874ae460d9125bacd21';
 
 const apiUrl = `${BASE_URL}/?key=${API_KEY}&q=${query}&image_type=photo&orientation=horizontal&safesearch=true`;
 
@@ -35,6 +36,8 @@ const apiUrl = `${BASE_URL}/?key=${API_KEY}&q=${query}&image_type=photo&orientat
     .catch((err) => {
      console.log(err);
     });
+
+    hideLoader();
 });
 
 function displayImages(images) {
@@ -47,7 +50,24 @@ function displayImages(images) {
         'Sorry, there are no images matching your search query. Please try again!',
     });
     return;
+}
+    
+
+    function showLoader() {
+  const loader = document.querySelector('.loader');
+  if (loader) {
+     loader.style.display = 'block';
+    loader.classList.add('visible');
   }
+    }
+    
+    function hideLoader() {
+  const loader = document.querySelector('.loader');
+  if (loader) {
+    loader.style.display = '';
+    loader.classList.remove('visible');
+  }
+}
 
   const markup = createMarkup(images);
   galleryImage.innerHTML = markup;
