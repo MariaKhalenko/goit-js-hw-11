@@ -30,6 +30,7 @@ formSearch.addEventListener('submit', function (event) {
  function displayImages(images) {
   galleryImage.innerHTML = '';
    loader.style.display = 'block';
+   loader.style.display = 'none';
    
   if (images.length === 0) {
     iziToast.error({
