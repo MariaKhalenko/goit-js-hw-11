@@ -6,9 +6,12 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 const formSearch = document.querySelector('.form-search');
 const searchBox = document.querySelector('.search-box');
 const galleryImage = document.querySelector('.gallery');
+const loader = document.querySelector('.loader');
 
 const BASE_URL = 'https://pixabay.com/api';
 const API_KEY = '23963114-6d0d5d874ae460d9125bacd21';
+
+loader.style.display = 'none';
 
 formSearch.addEventListener('submit', function (event) {
   event.preventDefault();
@@ -22,48 +25,48 @@ formSearch.addEventListener('submit', function (event) {
     });
     return;
   }
-
-    showLoader();
     
 
-  const apiUrl = `${BASE_URL}/?key=${API_KEY}&q=${query}&image_type=photo&orientation=horizontal&safesearch=true`;
-
-  fetch(apiUrl)
-    .then(response => response.json())
-    .then(data => {
-      displayImages(data.hits);
-    })
-    .catch(error => {
-      console.error(error);
-      
-      hideLoader();
-    });
-});
-
-function displayImages(images) {
+ function displayImages(images) {
   galleryImage.innerHTML = '';
-
+   loader.style.display = 'block';
+   
   if (images.length === 0) {
     iziToast.error({
       title: 'Error',
       message:
         'Sorry, there are no images matching your search query. Please try again!',
     });
+    loader.style.display = 'none';
     return;
   }
-    
-  
+      
   const markup = createMarkup(images);
    galleryImage.innerHTML = markup;
 
   
-  const lightbox = new SimpleLightbox('.gallery a', {
+  const clearSearch = new SimpleLightbox('.gallery a', {
     captionsData: 'alt',
-    captionPosition: 'bottom',
+    captions: true,
     captionDelay: 250,
   });
-  lightbox.refresh();
-}
+
+  clearSearch.refresh();
+  formSearch.reset();
+  }
+  
+ const apiUrl = `${BASE_URL}/?key=${API_KEY}&q=${query}&image_type=photo&orientation=horizontal&safesearch=true`;
+
+  fetch(apiUrl)
+    .then(response => response.json())
+    .then(data => {
+          displayImages(data.hits);
+    })
+    .catch(error => {
+            console.error(error);
+    });
+});
+
 
 function createMarkup(images) {
   return images.map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) =>
@@ -76,7 +79,7 @@ function createMarkup(images) {
               width="360"
             />
           </a>
-          <div class="imfo-section">
+          <div class="info-section">
             <div class="section">
               <h2 class="tittle">Likes</h2>
               <p class="quantity">${likes}</p>
@@ -96,20 +99,4 @@ function createMarkup(images) {
           </div>
         </li>`)
     .join('');
-}
-
-function showLoader() {
-  const loader = document.querySelector('.loader');
-  if (loader) {
-    loader.style.display = 'block';
-    loader.classList.add('visible');
-  }
-}
-
-function hideLoader() {
-  const loader = document.querySelector('.loader');
-  if (loader) {
-    loader.style.display = '';
-    loader.classList.remove('visible');
-  }
 }

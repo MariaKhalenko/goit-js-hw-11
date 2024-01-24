@@ -10,6 +10,7 @@ body {
   line-height: 1.5;
   letter-spacing: 0.04em;
   width: 1440px;
+  background-color: #b3deeb;
 }
 
 a {
@@ -19,6 +20,13 @@ a {
 
 p {
   margin: 0;
+}
+
+ul {
+  list-style-type: none;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 0;
 }
 
 .form-search {
@@ -61,6 +69,7 @@ p {
   width: 160px;
   height: 185px;
   position: relative;
+  margin: 30px auto;
   background: #fff;
   border-radius: 100px 100px 0 0;
 }
@@ -122,4 +131,81 @@ p {
   100% {
     transform: translateX(0px);
   }
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 20px;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.gallery-item {
+  margin-left: 20px;
+  transition: transform .3s;
+}
+
+.gallery-item:hover,
+.gallery-item:focus {
+  
+  transform: scale(1.05);
+}
+
+.gallery-item:hover .info-section {
+  border-color: #2d7de6;
+  
+}
+
+.gallery-link {
+  min-width: 320px;
+  flex-basis: calc((100% - 80px) / 4);
+  min-width: 320px;
+}
+
+.gallery-link:hover {
+  cursor: zoom-in;
+}
+
+.gallery-image {
+  display: block;
+  height: 30vh;
+  object-fit: cover;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+}
+.info-section {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid #24264d;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-top: none;
+  padding: 10px 0;
+  background-color: #d2ecf8;
+}
+
+
+.section {
+  text-align: center;
+}
+
+.tittle {
+  color: #212127;
+  font-family: Montserrat;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+}
+
+.quantity {
+  color: #222227;
+  font-family: Montserrat;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
 }
