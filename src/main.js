@@ -11,53 +11,28 @@ const loader = document.querySelector('.loader');
 const BASE_URL = 'https://pixabay.com/api';
 const API_KEY = '23963114-6d0d5d874ae460d9125bacd21';
 
-loader.style.display = 'none';
-
-formSearch.addEventListener('submit', function (event) {
-  event.preventDefault();
-
-  const query = encodeURIComponent(searchBox.value.trim());
-
-  if (query.trim() === '') {
-    iziToast.error({
-      title: 'Error',
-      message: 'Nothing found',
-    });
-    return;
-  }
-    
-
- function displayImages(images) {
-  galleryImage.innerHTML = '';
-   loader.style.display = 'block';
-   loader.style.display = 'none';
-   
-  if (images.length === 0) {
-    iziToast.error({
-      title: 'Error',
-      message:
-        'Sorry, there are no images matching your search query. Please try again!',
-    });
-    loader.style.display = 'none';
-    return;
-  }
-      
-  const markup = createMarkup(images);
-   galleryImage.innerHTML = markup;
-
-  
   const clearSearch = new SimpleLightbox('.gallery a', {
     captionsData: 'alt',
     captions: true,
     captionDelay: 250,
   });
 
-  clearSearch.refresh();
-  formSearch.reset();
-  }
-  
- const apiUrl = `${BASE_URL}/?key=${API_KEY}&q=${query}&image_type=photo&orientation=horizontal&safesearch=true`;
+formSearch.addEventListener('submit', function (event) {
+event.preventDefault();
 
+  const query = encodeURIComponent(searchBox.value.trim());
+
+  if (query.trim() === '') {
+    iziToast.error({
+      title: 'Error',
+      message: 'Enter search data',
+    });
+    return;
+  }
+    loader.style.display = 'block';
+
+  const apiUrl = `${BASE_URL}/?key=${API_KEY}&q=${query}&image_type=photo&orientation=horizontal&safesearch=true`;
+  
   fetch(apiUrl)
     .then(response => response.json())
     .then(data => {
@@ -66,10 +41,33 @@ formSearch.addEventListener('submit', function (event) {
     .catch(error => {
             console.error(error);
     });
+    .finally(() => {
+      loader.style.display = 'none';
+    });
 });
 
+  
+function displayImages(images) {
+  galleryImage.innerHTML = '';
+      
+  if (images.length === 0) {
+    iziToast.error({
+      title: 'Error',
+      message:
+        'Sorry, there are no images matching your search query. Please try again!',
+    });
+    return;
+  }
+      
+  const markup = createMarkup(images);
+  galleryImage.innerHTML = markup;
 
-function createMarkup(images) {
+  clearSearch.refresh();
+  formSearch.reset();
+  loader.style.display = 'none';
+}
+  
+  function createMarkup(images) {
   return images.map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) =>
     `<li class="gallery-item">
           <a class="gallery-link" href="${largeImageURL}">
