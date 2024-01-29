@@ -41,8 +41,7 @@ formSearch.addEventListener('submit', function (event) {
       message:
         'Sorry, there are no images matching your search query. Please try again!',
     });
-    loader.style.display = 'none';
-    return;
+       return;
   }
       
   const markup = createMarkup(images);
@@ -61,7 +60,10 @@ formSearch.addEventListener('submit', function (event) {
     })
     .catch(error => {
             console.error(error);
-    });
+    })
+    .finally(() => {
+	  loader.style.display = 'none';
+	});
    
 });
 
