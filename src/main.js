@@ -24,7 +24,8 @@ formSearch.addEventListener('submit', function (event) {
     });
     return;
   }
-  
+   loader.style.display = 'block';
+
    const clearSearch = new SimpleLightbox('.gallery a', {
     captionsData: 'alt',
     captions: true,
@@ -33,8 +34,7 @@ formSearch.addEventListener('submit', function (event) {
 
  function displayImages(images) {
   galleryImage.innerHTML = '';
-   loader.style.display = 'block';
-   
+     
   if (images.length === 0) {
     iziToast.error({
       title: 'Error',
@@ -53,18 +53,17 @@ formSearch.addEventListener('submit', function (event) {
    
  const apiUrl = `${BASE_URL}/?key=${API_KEY}&q=${query}&image_type=photo&orientation=horizontal&safesearch=true`;
 
-  fetch(apiUrl)
+ fetch(apiUrl)
     .then(response => response.json())
     .then(data => {
-          displayImages(data.hits);
+      displayImages(data.hits);
     })
     .catch(error => {
-            console.error(error);
+      console.error(error);
     })
     .finally(() => {
-	  loader.style.display = 'none';
-	});
-   
+      loader.style.display = 'none'; // Скрыть loader после выполнения запроса
+    });
 });
 
 
